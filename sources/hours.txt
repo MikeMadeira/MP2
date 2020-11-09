@@ -1,0 +1,7 @@
+0	1	uma 0
+1   1   hora    1
+0	2	duas	0		
+2	3	horas	2
+0   4   tres    0
+4   3   horas   3
+3

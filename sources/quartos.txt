@@ -1,0 +1,7 @@
+0   1   um  1
+0   1   dois    3
+0   3   tres    4
+1   2   quarto  5
+1   2   quartos 0
+2
+3   2   quartos 5

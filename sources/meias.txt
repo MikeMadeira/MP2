@@ -1,3 +1,2 @@
-0   1   meia   3
-1   1   eps 0
+0   1   meia    trinta
 1

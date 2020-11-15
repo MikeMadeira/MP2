@@ -41,17 +41,29 @@ fstproject compiled/hours.fst compiled/hours_input.fst
 echo "Project the transducer 'aux_e' into 'aux_e_input'"
 fstproject compiled/aux_e.fst compiled/aux_e_input.fst
 
-echo "Project the transducer 'meias' into 'meias_input'"
-fstproject compiled/meias.fst compiled/meias_input.fst
-
-echo "Unify the transducer 'meias_input' with the transducer 'quartos' into 'meias_ou_quartos'"
-fstunion compiled/meias_input.fst compiled/quartos.fst compiled/meias_ou_quartos.fst
+echo "Unify the transducer 'meias' with the transducer 'quartos' into 'meias_ou_quartos'"
+fstunion compiled/meias.fst compiled/quartos.fst compiled/meias_ou_quartos.fst
 
 echo "Concat the transducer 'hours_input' with the transducer 'aux_e_input'"
 fstconcat compiled/hours_input.fst compiled/aux_e_input.fst compiled/hours_e_input.fst
 
 echo "Concat the transducer 'hours_e_input' with the transducer 'meias_ou_quartos'"
 fstconcat compiled/hours_e_input.fst compiled/meias_ou_quartos.fst compiled/rich2text.fst
+
+echo "Composing the transducer 'quartos' with the input 'minutos.txt'"
+fstcompose compiled/quartos.fst compiled/minutos.fst compiled/quartos_composed.fst
+
+echo "Composing the transducer 'meias' with the input 'minutos.txt'"
+fstcompose compiled/meias.fst compiled/minutos.fst compiled/meias_composed.fst
+
+echo "Unify the transducer 'meias_composed' with the transducer 'quartos_composed' into 'meias_ou_quartos_composed'"
+fstunion compiled/meias_composed.fst compiled/quartos_composed.fst compiled/meias_ou_quartos_composed.fst
+
+echo "Unify the transducer 'meias_ou_quartos' with the transducer 'minutos' into 'minutos_meias_ou_quartos'"
+fstunion compiled/meias_ou_quartos_composed.fst compiled/minutos.fst compiled/minutos_meias_ou_quartos.fst
+
+echo "Concat the transducer 'hours_e_eps' with the transducer 'minutos_meias_ou_quartos'"
+fstconcat compiled/hours_e_eps.fst compiled/minutos_meias_ou_quartos.fst compiled/rich2num.fst
 
 
 for i in compiled/*.fst; do
@@ -83,8 +95,11 @@ fstcompose compiled/test_text2num.fst compiled/text2num.fst | fstshortestpath | 
 echo "Testing the transducer 'lazy2num' with the input 'tests/test_lazy2num.txt'"
 fstcompose compiled/test_lazy2num.fst compiled/lazy2num.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
 
-echo "Testing the transducer 'num2text' with the input 'tests/sleepA94129.txt'"
-fstcompose compiled/sleepA94129.fst compiled/num2text.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
-
 echo "Testing the transducer 'rich2text' with the input 'tests/test_rich2text.txt'"
 fstcompose compiled/test_rich2text.fst compiled/rich2text.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
+
+echo "Testing the transducer 'rich2num' with the input 'tests/test_rich2num.txt'"
+fstcompose compiled/test_rich2num.fst compiled/rich2num.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
+
+echo "Testing the transducer 'num2text' with the input 'tests/sleepA94129.txt'"
+fstcompose compiled/sleepA94129.fst compiled/num2text.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt

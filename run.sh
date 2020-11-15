@@ -14,6 +14,12 @@ fstconcat compiled/hours.fst compiled/aux_e.fst compiled/hours_e.fst
 echo "Concat the transducer 'hours_e' with the transducer 'minutos'"
 fstconcat compiled/hours_e.fst compiled/minutos.fst compiled/text2num.fst
 
+echo "Concat the transducer 'hours' with the transducer 'aux_e_eps'"
+fstconcat compiled/hours.fst compiled/aux_e_eps.fst compiled/hours_e_eps.fst
+
+echo "Concat the transducer 'hours_e_eps' with the transducer 'minutos'"
+fstconcat compiled/hours_e_eps.fst compiled/minutos.fst compiled/lazy2num.fst
+
 
 for i in compiled/*.fst; do
 	echo "Creating image: images/$(basename $i '.fst').pdf"
@@ -37,3 +43,6 @@ fstcompose compiled/teste1.fst compiled/trans_teste.fst | fstshortestpath | fstp
 
 echo "Testing the transducer 'text2num' with the input 'tests/sleepB94129.txt'"
 fstcompose compiled/sleepB94129.fst compiled/text2num.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
+
+echo "Testing the transducer 'lazy2num' with the input 'tests/sleepB94129.txt'"
+fstcompose compiled/sleepB94129.fst compiled/lazy2num.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt

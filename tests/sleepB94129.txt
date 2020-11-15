@@ -1,4 +1,5 @@
-0	1	oito oito
-1   2   e  e
-2   3   vinte  vinte
-3   
+0	1	vinte vinte
+1   2   horas  horas
+2   3   e   e
+3   4   cinco   cinco
+4

@@ -1,5 +1,6 @@
-0	1	vinte    vinte
-1	2   e   e
-2   3   quatro  quatro
-3   4   horas   horas
-4
+0	1	2   2
+1	2   0   0
+2   3   :   :
+3   4   0   0
+4   5   4   4
+5

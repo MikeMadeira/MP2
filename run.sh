@@ -35,6 +35,24 @@ fstconcat compiled/hours_inverted.fst compiled/aux_e_inverted.fst compiled/hours
 echo "Concat the transducer 'hours_e_inverted' with the transducer 'minutos_inverted'"
 fstconcat compiled/hours_e_inverted.fst compiled/minutos_inverted.fst compiled/num2text.fst
 
+echo "Project the transducer 'hours' into 'hours_input'"
+fstproject compiled/hours.fst compiled/hours_input.fst
+
+echo "Project the transducer 'aux_e' into 'aux_e_input'"
+fstproject compiled/aux_e.fst compiled/aux_e_input.fst
+
+echo "Project the transducer 'meias' into 'meias_input'"
+fstproject compiled/meias.fst compiled/meias_input.fst
+
+echo "Unify the transducer 'meias_input' with the transducer 'quartos' into 'meias_ou_quartos'"
+fstunion compiled/meias_input.fst compiled/quartos.fst compiled/meias_ou_quartos.fst
+
+echo "Concat the transducer 'hours_input' with the transducer 'aux_e_input'"
+fstconcat compiled/hours_input.fst compiled/aux_e_input.fst compiled/hours_e_input.fst
+
+echo "Concat the transducer 'hours_e_input' with the transducer 'meias_ou_quartos'"
+fstconcat compiled/hours_e_input.fst compiled/meias_ou_quartos.fst compiled/rich2text.fst
+
 
 for i in compiled/*.fst; do
 	echo "Creating image: images/$(basename $i '.fst').pdf"
@@ -67,3 +85,6 @@ fstcompose compiled/test_lazy2num.fst compiled/lazy2num.fst | fstshortestpath | 
 
 echo "Testing the transducer 'num2text' with the input 'tests/sleepA94129.txt'"
 fstcompose compiled/sleepA94129.fst compiled/num2text.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt
+
+echo "Testing the transducer 'rich2text' with the input 'tests/test_rich2text.txt'"
+fstcompose compiled/test_rich2text.fst compiled/rich2text.fst | fstshortestpath | fstproject --project_type=output | fstrmepsilon | fsttopsort | fstprint --acceptor --isymbols=./syms.txt

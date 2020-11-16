@@ -1,0 +1,189 @@
+\documentclass{sigchi}
+
+% Use this section to set the ACM copyright statement (e.g. for
+% preprints).  Consult the conference website for the camera-ready
+% copyright statement.
+
+% Copyright
+%\CopyrightYear{2020}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+% DOI
+%\doi{123.34}
+% ISBN
+%\isbn{978-1-4503-6708-0/20/04}
+%Conference
+%\conferenceinfo{CHI'20,}{April  25--30, 2020, Honolulu, HI, USA}
+%Price
+%\acmPrice{\$15.00}
+
+% Use this command to override the default ACM copyright statement
+% (e.g. for preprints).  Consult the conference website for the
+% camera-ready copyright statement.
+
+%% HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP --
+%% Please note you need to make sure the copy for your specific
+%% license is used here!
+% \toappear{
+% Permission to make digital or hard copies of all or part of this work
+% for personal or classroom use is granted without fee provided that
+% copies are not made or distributed for profit or commercial advantage
+% and that copies bear this notice and the full citation on the first
+% page. Copyrights for components of this work owned by others than ACM
+% must be honored. Abstracting with credit is permitted. To copy
+% otherwise, or republish, to post on servers or to redistribute to
+% lists, requires prior specific permission and/or a fee. Request
+% permissions from \href{mailto:Permissions@acm.org}{Permissions@acm.org}. \\
+% \emph{CHI '16},  May 07--12, 2016, San Jose, CA, USA \\
+% ACM xxx-x-xxxx-xxxx-x/xx/xx\ldots \$15.00 \\
+% DOI: \url{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+% }
+
+% Arabic page numbers for submission.  Remove this line to eliminate
+% page numbers for the camera ready copy
+% \pagenumbering{arabic}
+
+% Load basic packages
+\usepackage{balance}       % to better equalize the last page
+\usepackage{graphics}      % for EPS, load graphicx instead 
+\usepackage[T1]{fontenc}   % for umlauts and other diaeresis
+\usepackage{txfonts}
+\usepackage{mathptmx}
+\usepackage[pdflang={en-US},pdftex]{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{textcomp}
+
+% Some optional stuff you might like/need.
+\usepackage{microtype}        % Improved Tracking and Kerning
+% \usepackage[all]{hypcap}    % Fixes bug in hyperref caption linking
+\usepackage{ccicons}          % Cite your images correctly!
+% \usepackage[utf8]{inputenc} % for a UTF8 editor only
+
+% If you want to use todo notes, marginpars etc. during creation of
+% your draft document, you have to enable the "chi_draft" option for
+% the document class. To do this, change the very first line to:
+% "\documentclass[chi_draft]{sigchi}". You can then place todo notes
+% by using the "\todo{...}"  command. Make sure to disable the draft
+% option again before submitting your final document.
+\usepackage{todonotes}
+
+% Paper metadata (use plain text, for PDF inclusion and later
+% re-using, if desired).  Use \emtpyauthor when submitting for review
+% so you remain anonymous.
+\def\plaintitle{MP2 Transducers - Time Conversion}
+\def\plainauthor{First Author, Second Author}
+\def\emptyauthor{}
+\def\plainkeywords{Authors' choice; of terms; separated; by
+  semicolons; include commas, within terms only; this section is required.}
+\def\plaingeneralterms{Documentation, Standardization}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{
+    \def\UrlFont{\sf}
+  }{
+    \def\UrlFont{\small\bf\ttfamily}
+  }}
+\makeatother
+\urlstyle{leo}
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, to give it a
+% fighting chance of not being over-written, since its job is to
+% redefine many LaTeX commands.
+\definecolor{linkColor}{RGB}{6,125,233}
+\hypersetup{%
+  pdftitle={\plaintitle},
+% Use \plainauthor for final version.
+%  pdfauthor={\plainauthor},
+  pdfauthor={\emptyauthor},
+  pdfkeywords={\plainkeywords},
+  pdfdisplaydoctitle=true, % For Accessibility
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=linkColor,
+  breaklinks=true,
+  hypertexnames=false
+}
+
+% create a shortcut to typeset table headings
+% \newcommand\tabhead[1]{\small\textbf{#1}}
+
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% End of preamble. Here it comes the document.
+\begin{document}
+\title{\plaintitle}
+
+\numberofauthors{2}
+\author{%
+  \alignauthor{Michael Madeira\\
+    \affaddr{Instituto Superior Técnico}\\
+    \affaddr{Lisbon, Portugal}\\
+    \email{94129}}\\
+}
+
+\maketitle
+
+
+\section{Description of Transducers}
+
+To create a module that could couple with a speech recognition, in order to convert time from text to numerical format, numerical to text and with some variants, it is first built 4 main transducers: 
+
+\begin{itemize}
+    \item \emph{horas} accepts text as input and outputs the left numerical part of the format \emph{hh:mm}
+    \item \emph{minutos} accepts text as input and outputs the right numerical part of the format \emph{hh:mm}
+    \item \emph{meias} accepts text "meia" as input and outputs "trinta" as text 
+    \item \emph{quartos} accepts the three text variants text "um quarto", "dois quartos", "tres quartos", and outputs "quinze", "trinta", "quarenta e cinco" respectively.
+\end{itemize}
+
+There are many ways to mix and edit the latter transducers, but the main results of this module can be in raw text, processed text and numbers format, given the input number format or text, so 5 more transducers were built:
+
+\begin{itemize}
+    \item \emph{text2num} receives the complete text format \emph{X horas e Y minutos} and returns the complete number format \emph{hh:mm}
+    \item \emph{lazy2num} can receive the complete text format \emph{X horas e Y minutos} but in addition it also accepts inputs \emph{X horas} or only hours \emph{X} characterized as lazyness, and returns the complete number format \emph{hh:mm} as well
+    \item \emph{rich2text} accepts the normal text format in the hours part, but the minutes part only receives rich text variations mentioned above like  \emph{X horas e dois quartos} and it returns the the output of \emph{hours} transducer with \emph{quartos} output
+    \item \emph{rich2num} is equal to latter one but now it returns in number format \emph{hh:mm} and it receives the lazy input
+    \item \emph{num2text} is totally the opposite of \emph{text2num}
+\end{itemize}
+
+\section{Operations and Transformations chosen}
+
+The transducer \emph{text2num} starts a dependency of a auxiliary connection between the transducers \emph{horas} and \emph{minutos}. This auxiliary transducer only needed two states and one transition \emph{e::} to represent the symbol ":". And finally to connect the three transducers a concatenation is required between \emph{horas} and \emph{aux\_e} and next with \emph{minutos}.
+
+The lazy way to say time only added a new transition \emph{eps::} to the previous auxiliar transducer, since \emph{eps} defines that the current input state will not be read, but it writes ":". This way the transducer can now accept inputs like "dez" or "oito" as o'clock hours and it is returned "10:00" and "08:00" respectively.
+
+On transducer \emph{num2text}, weights have to be implemented on states that were inverted in order to receive numbers as input and output text, because the input of the possible transitions turns out to be the same (e.g. 3:horas; 3:eps). To fulfill the objective of \emph{num2text} the words \emph{horas} e \emph{minutos} have to be in the output, so the transition \emph{3:horas} have to be chosen with priority over \emph{3:eps}, by applying more weight (representing cost to do a transition) to the unwanted one, like 0.2 to  \emph{3:horas} and 0.5 to \emph{3:eps}. The operations applied here were three inverts, to \emph{horas}, \emph{minutos} and the auxiliary \emph{aux\_e}, then two concatenations.
+
+For \emph{rich2text} there were implemented two projections, of \emph{horas} and \emph{aux\_e} concerning the output text required, since project operation copies each arc's input label to its output label. Then the rich text "raw" transducers \emph{meias} and \emph{quartos} could be the output result, it is made an union of the two. Then to finalize it is concatenated all 3 transducers \emph{horas} and \emph{aux\_e} with \emph{meias\_e\_quartos}.
+
+Finally to build \emph{rich2num} two compositions of \emph{meias} and \emph{quartos} with \emph{minutos} must be made, to transform the output of the rich text "raw" transducers, the same of the \emph{minutos} transducer where the input is equally shared, for the sake of the numeric format output desired. Then two unions are applied to join  \emph{meias\_composed} and \emph{quartos\_composed} with \emph{minutos}. To finish it is done a simple concatenation of \emph{horas\_e\_eps} with the union formed before.
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
